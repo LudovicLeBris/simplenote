@@ -1,5 +1,11 @@
 <?php
 
+session_start();
+
+require_once('src/controllers/login.php');
+require_once('src/controllers/logout.php');
+require_once('src/controllers/signin.php');
+
 require_once('src/controllers/notes.php');
 require_once('src/controllers/note.php');
 require_once('src/controllers/createnote.php');
@@ -7,47 +13,80 @@ require_once('src/controllers/deletenote.php');
 require_once('src/controllers/displayupdate.php');
 require_once('src/controllers/updatenote.php');
 
-if (isset($_GET['action']) && $_GET['action'] !== '') {
-    if ($_GET['action'] === 'note') {
+if (!isset($_SESSION['userID']))
+{
+    if (isset($_GET['action']) && $_GET['action'] !== '') 
+    {
+        switch ($_GET['action'])
+        {
+            case 'submitlogin':
+                login($_POST);
+                break;
 
-        if (isset($_GET['noteID']) && $_GET['noteID'] > 0) {
-            $noteID = $_GET['noteID'];
-
-            note("1", $noteID);
-        } else {
-            echo "ID erroné";
+            case 'createuser':
+                createUser($_POST);
+                break;
+                
+            default:
+                header(location: 'templates/login.php');
+                break;
         }
-
-    } elseif ($_GET['action'] === 'createnote') {
-        addNote($_POST);
-
-    } elseif ($_GET['action'] === 'deletenote') {
-        if (isset($_GET['noteID']) && $_GET['noteID'] > 0) {
-            $noteID = $_GET['noteID'];
-
-            delNote(1, $noteID);
-        } else {
-            echo 'ID erroné';
-        }
-
-    } elseif ($_GET['action'] === 'displayupdate') {
-        if (isset($_GET['noteID']) && $_GET['noteID'] > 0) {
-            $noteID = $_GET['noteID'];
-            
-            displayupdate("1", $noteID);
-
-        } else {
-            echo 'ID erroné';
-        }
-
-    } elseif ($_GET['action'] === 'updatenote') {
-        update($_POST);
-        
-    } else {
-
-        echo "Erreur 404";
     }
     
+    require('templates/login.php');
+}
+elseif (isset($_GET['action']) && $_GET['action'] !== '')
+{
+    switch ($_GET['action'])
+    {
+        case 'logout':
+            logout();
+            break;
+
+        case 'createnote':
+            addNote($_POST);
+            break;
+            
+        case 'deletenote':
+            if (isset($_GET['noteID']) && $_GET['noteID'] > 0) {
+                $noteID = $_GET['noteID'];
+    
+            delNote($_SESSION['userID'], $noteID);
+            } else {
+                echo 'ID erroné';
+            }
+            break;
+
+        case 'displayupdate':
+            if (isset($_GET['noteID']) && $_GET['noteID'] > 0) {
+                $noteID = $_GET['noteID'];
+                
+                displayupdate($_SESSION['userID'], $noteID);
+                
+            } else {
+                echo 'ID erroné';
+            }
+            break;
+            
+        case 'updatenote':
+            update($_POST);
+            break;
+            
+        case 'note':
+            if (isset($_GET['noteID']) && $_GET['noteID'] > 0) {
+                $noteID = $_GET['noteID'];
+        
+                note($_SESSION['userID'], $noteID);
+            } else {
+                echo "ID erroné";
+            }
+            break;
+
+        default:
+            echo "Erreur 404";
+            break;
+    }
+
 } else {
     notes();
 }

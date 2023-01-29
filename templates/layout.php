@@ -7,6 +7,18 @@
     </head>
 
     <body>
-        <?= $content ?>
+
+        <nav>
+            <?php require('header.php'); ?>
+        </nav>
+
+        <main>
+            <?= $content ?>
+        </main>
+
+        <footer>
+            <?php require('footer.php'); ?>
+        </footer>
+
     </body>
 </html>

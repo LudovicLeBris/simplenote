@@ -14,10 +14,15 @@ class NoteRepository
 {
     public DatabaseConnection $connection;
 
+    private function _statement($sqlStatement)
+    {
+        return $this->connection->getConnection()->prepare($sqlStatement);
+    }
+
     public function displayNotes($userConnected): array
     {
         
-        $statement = $this->connection->getConnection()->prepare(
+        $statement = $this->_statement(
             "SELECT noteID, title, creationDATE, lastUpdateDATE, content FROM notes WHERE userID = :userConnected"
         );
         $statement->execute(['userConnected' => $userConnected]);
@@ -40,7 +45,7 @@ class NoteRepository
 
     public function displayNote($userConnected, $noteID): Note
     {
-        $statement = $this->connection->getConnection()->prepare(
+        $statement = $this->_statement(
             "SELECT noteID, title, creationDATE, lastUpdateDATE, content FROM notes 
             WHERE userID = :userConnected AND noteID = :noteID"
         );
@@ -62,13 +67,12 @@ class NoteRepository
     
     public function createNote($userConnected, $title, $content): bool
     {
-        $statement = $this->connection->getConnection()->prepare(
+        $statement = $this->_statement(
             "INSERT INTO notes (userID, title, creationDATE, lastUpdateDATE, content)
             VALUES (:userID, :title, :creationDATE, :lastUpdateDATE, :content)"
         );
     
         $date = date('Y/m/d H:i:s');
-        echo gettype($date);
     
         $success = $statement->execute([
             'userID' => $userConnected,
@@ -84,7 +88,7 @@ class NoteRepository
     
     public function updateNote($userConnected, $noteID, $title, $content): bool
     {
-        $statement = $this->connection->getConnection()->prepare(
+        $statement = $this->_statement(
             "UPDATE notes SET title = :title, content = :content, lastupdateDATE = :updatedDate 
             WHERE noteID = :noteID AND userID = :userConnected"
         );
@@ -104,7 +108,7 @@ class NoteRepository
     
     public function deleteNote($userConnected, $noteID): bool
     {
-        $statement = $this->connection->getConnection()->prepare(
+        $statement = $this->_statement(
             "DELETE FROM notes WHERE noteID = :noteID AND userID = :userConnected"
         );
         $success = $statement->execute([

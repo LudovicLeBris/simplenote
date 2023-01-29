@@ -7,7 +7,7 @@ function notes()
 {
     $noteRepository = new NoteRepository();
     $noteRepository->connection = new DatabaseConnection();
-    $notes = $noteRepository->displayNotes(1);
+    $notes = $noteRepository->displayNotes($_SESSION['userID']);
     
     require('templates/notes.php');
 }

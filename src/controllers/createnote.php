@@ -21,7 +21,7 @@ function addNote (array $input)
     $noteRepository = new NoteRepository();
     $noteRepository->connection = new DatabaseConnection();
 
-    $success = $noteRepository->createNote(1, $title, $content);
+    $success = $noteRepository->createNote($_SESSION['userID'], $title, $content);
     if (!$success) {
         echo "Erreur d'entrèe en base";
     } else {
