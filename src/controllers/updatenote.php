@@ -21,7 +21,7 @@ function update( array $input) {
     $noteRepository = new NoteRepository();
     $noteRepository->connection = new DatabaseConnection();
     
-    $success = $noteRepository->updateNote(1, $noteID, $title, $content);
+    $success = $noteRepository->updateNote($_SESSION['userID'], $noteID, $title, $content);
     if (!$success) {
         echo "Erreur d'entrèe en base";
     } else {
