@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Création de compte</h1>
+    <a href="../index.php">Annuler</a><br><br>
     <div>
         <form action="../index.php?action=createuser" method="post">
             <div>

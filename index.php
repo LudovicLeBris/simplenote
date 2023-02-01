@@ -4,7 +4,11 @@ session_start();
 
 require_once('src/controllers/login.php');
 require_once('src/controllers/logout.php');
-require_once('src/controllers/signin.php');
+require_once('src/controllers/signup.php');
+require_once('src/controllers/displayaccount.php');
+require_once('src/controllers/displayuser.php');
+require_once('src/controllers/updateuser.php');
+require_once('src/controllers/deleteuser.php');
 
 require_once('src/controllers/notes.php');
 require_once('src/controllers/note.php');
@@ -41,6 +45,22 @@ elseif (isset($_GET['action']) && $_GET['action'] !== '')
     {
         case 'logout':
             logout();
+            break;
+
+        case 'manageaccount':
+            displayAccount();
+            break;
+
+        case 'displayuser':
+            displayUser($_SESSION['email']);
+            break;
+
+        case 'updateuser':
+            updateUser($_POST);
+            break;
+
+        case 'deleteuser':
+            deleteUser($_SESSION['userID']);
             break;
 
         case 'createnote':

@@ -51,38 +51,37 @@ class UserRespository
 
     }
     
-    public function getUsers(): array
-    {
-        $statement = $this->_statement("SELECT * FROM users");
+    // public function getUsers(): array
+    // {
+    //     $statement = $this->_statement("SELECT * FROM users");
 
-        $statement->execute();
+    //     $statement->execute();
 
-        $users = [];
+    //     $users = [];
 
-        while (($row = $statement->fetch()))
-        {
-            $user = new User();
-            $user->userID = $row['userID'];
-            $user->firstName = $row['firstName'];
-            $user->lastName = $row['lastName'];
-            $user->email = $row['email'];
-            $user->password = $row['password'];
+    //     while (($row = $statement->fetch()))
+    //     {
+    //         $user = new User();
+    //         $user->userID = $row['userID'];
+    //         $user->firstName = $row['firstName'];
+    //         $user->lastName = $row['lastName'];
+    //         $user->email = $row['email'];
+    //         $user->password = $row['password'];
 
-            $users[] = $user;
-        }
+    //         $users[] = $user;
+    //     }
 
-        return $users;
+    //     return $users;
 
-    }
+    // }
     
-    public function getUser($email, $password)
+    public function getUser($email)
     {
         $statement = $this->_statement(
-            "SELECT userID, firstName, lastName, email FROM users WHERE email = :email AND password = :password"
+            "SELECT userID, firstName, lastName, email FROM users WHERE email = :email"
         );
         $statement->execute([
             'email' => $email,
-            'password' => $password,
         ]);
 
         $row = $statement->fetch();
@@ -159,7 +158,7 @@ class UserRespository
 
         $success = $statement->execute(['userID' => $userID]);
 
-        return ($sucess > 0);
+        return ($success > 0);
     }
 
 }
