@@ -64,6 +64,10 @@ elseif (isset($_GET['action']) && $_GET['action'] !== '')
             break;
 
         case 'createnote':
+            require('templates/createnote.php');
+            break;
+
+        case 'addnote':
             addNote($_POST);
             break;
             

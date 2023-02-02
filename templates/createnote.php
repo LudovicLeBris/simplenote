@@ -5,7 +5,7 @@
 <h1>Ajout d'une nouvelle note</h1>
 <a href="../index.php">Annuler</a><br><br>
 
-<form action="../index.php?action=createnote" method="POST">
+<form action="../index.php?action=addnote" method="POST">
     <div>
         <label for="title">Titre</label><br>
         <input type="text" name="title">

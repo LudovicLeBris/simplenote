@@ -3,7 +3,7 @@
 <?php ob_start(); ?>
 
     <h1>Mes notes</h1>
-    <a href="/templates/createnote.php">Ajouter une note</a>
+    <a href="index.php?action=createnote">Ajouter une note</a>
     <?php foreach($notes as $note) : ?>
         <div>
             <h3><?= htmlspecialchars($note->title) ?></h3>
