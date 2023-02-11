@@ -3,9 +3,9 @@
 <?php ob_start(); ?>
 
 <h1>Modification de la note</h1>
-<a href="../index.php">Annuler</a><br><br>
+<p class="note-menu"><a href="../index.php?action=note&noteID=<?= $note->noteID ?>">Annuler</a></p>
 
-<form action="../index.php?action=updatenote" method="POST">
+<form class="update-form-menu" action="../index.php?action=updatenote" method="POST">
     <div>
         <input type="hidden" name="noteID" value="<?= htmlspecialchars($note->noteID) ?>">
         <label for="title">Titre</label><br>
@@ -13,7 +13,7 @@
     </div>
     <div>
         <label for="content">Contenu de la note</label><br>
-        <textarea name="content"cols="30" rows="30"><?= htmlspecialchars($note->content) ?></textarea>
+        <textarea name="content" cols="30" rows="20"><?= htmlspecialchars($note->content) ?></textarea>
     </div>
     <button type="submit">Enregistrer</button>
 </form>

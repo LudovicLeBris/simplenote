@@ -3,19 +3,26 @@
 <?php ob_start(); ?>
 
     <h1>Mes notes</h1>
-    <a href="index.php?action=createnote">Ajouter une note</a>
-    <?php foreach($notes as $note) : ?>
-        <div>
-            <h3><?= htmlspecialchars($note->title) ?></h3>
-            <p>Créé le : <?= htmlspecialchars($note->creationDATE) ?></p>
-            <p>Dernière modification le : <?= htmlspecialchars($note->lastUpdateDATE) ?></p>
-            <div>
-                <p><?= htmlspecialchars($note->content) ?></p>
+    <div class="createnote">
+        <a href="index.php?action=createnote">Ajouter une note</a>
+    </div>
+    <div class="notecards">
+        <?php foreach($notes as $note) : ?>
+        <a class="note-editLink" href="index.php?action=note&noteID=<?= urlencode($note->noteID) ?>">
+            <div class="notecard">
+                <h3 class ="notetitle"><?= htmlspecialchars($note->title) ?></h3>
+                <div class="note-content-container">
+                    <p class="note-content-preview"><?= htmlspecialchars($note->content) ?></p>
+                </div>
+                <p class="notes-date">Dernière modification le : <?= htmlspecialchars($note->lastUpdateDATE) ?></p>
+                <p class="notes-date">Créé le : <?= htmlspecialchars($note->creationDATE) ?></p>
+                <div class="note-editLink">
+                </div>
+                <!-- <hr> -->
             </div>
-            <a href="index.php?action=note&noteID=<?= urlencode($note->noteID) ?>">Editer</a>
-            <hr>
-        </div>
-    <?php endforeach ?>
+        </a>
+        <?php endforeach ?>
+    </div>
 
 <?php $content = ob_get_clean(); ?>
 

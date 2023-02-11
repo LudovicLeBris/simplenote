@@ -3,16 +3,16 @@
 <?php ob_start(); ?>
 
 <h1>Ajout d'une nouvelle note</h1>
-<a href="../index.php">Annuler</a><br><br>
+<p class="note-menu"><a href="../index.php">Annuler</a></p>
 
-<form action="../index.php?action=addnote" method="POST">
+<form class="update-form-menu" action="../index.php?action=addnote" method="POST">
     <div>
         <label for="title">Titre</label><br>
         <input type="text" name="title">
     </div>
     <div>
         <label for="content">Contenu de la note</label><br>
-        <textarea name="content"cols="30" rows="30"></textarea>
+        <textarea name="content"cols="30" rows="20"></textarea>
     </div>
     <button type="submit">Enregistrer</button>
 </form>

@@ -13,7 +13,7 @@
             <?php require('header.php'); ?>
         </nav>
 
-        <main>
+        <main class="main">
             <?= $content ?>
         </main>
 

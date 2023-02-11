@@ -2,20 +2,21 @@
 
 <?php ob_start(); ?>
 
-<h1>Détail de la note</h1>
-<a href="index.php">Retour</a><br><br>
-<div>
-    <a href="index.php?action=displayupdate&noteID=<?= urlencode($note->noteID) ?>">Editer</a>
-    <a href="index.php?action=deletenote&noteID=<?= urlencode($note->noteID) ?>">Supprimer</a>
+<h1><?= htmlspecialchars($note->title) ?></h1>
+<div class="note-menu">
+    <ul>
+        <li><a href="index.php">Retour</a></li>
+        <li><a href="index.php?action=displayupdate&noteID=<?= urlencode($note->noteID) ?>">Editer</a></li>
+        <li><a href="index.php?action=deletenote&noteID=<?= urlencode($note->noteID) ?>">Supprimer</a></li>
+    </ul>
 </div>
 
-<div>
-    <h3><?= htmlspecialchars($note->title) ?></h3>
+<div class="note-date">
     <p>Créé le : <?= htmlspecialchars($note->creationDATE) ?></p>
     <p>Dernière modification le : <?= htmlspecialchars($note->lastUpdateDATE) ?></p>
-    <div>
-        <p><?= htmlspecialchars($note->content) ?></p>
-    </div>
+</div>
+<div class="note-content">
+    <p><?= htmlspecialchars($note->content) ?></p>
 </div>
 
 <?php $content = ob_get_clean(); ?>

@@ -3,9 +3,9 @@
 <?php ob_start(); ?>
 
 <h1>Modification du compte</h1>
-<a href="../index.php?action=manageaccount">Annuler</a><br><br>
+<p class="note-menu"><a href="../index.php?action=manageaccount">Annuler</a></p>
 
-<form action="../index.php?action=updateuser" method="POST">
+<form class="update-form-menu" action="../index.php?action=updateuser" method="POST">
     <p>Identifiant : <?= $user->email ?></p>
     <div>
         <input type="hidden" name="userID" value="<?= htmlspecialchars($user->userID) ?>">
