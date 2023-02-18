@@ -18,8 +18,8 @@ URL to connect to PHP-myadmin :
 
     http://simplenote:8080
 
-A sample account is already set :
-login : j.legend@example.com
+A sample account is already set :  
+login : j.legend@example.com  
 password : iamalegend
 
 \* : make sure docker and docker compose are installed on your system.
