@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ./.docker/php
+    container_name: "simplenote-PHP8.1"
+    restart: always
+    ports:
+     - "80:80"
+     - "443:443"
+    links:
+      - db
+    volumes:
+      - ./:/var/www/html:rw
+      - ./.conf/php.ini:/usr/local/etc/php/php.ini
+      - ./conf/vhost.conf:/etc/apache2/sites-enabled
+      - ./.log/apache2:/var/log/apache2
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html
+      PMA_PORT: 8080
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_USER: simplenote
+      MYSQL_PASSWORD: jaimelagalette
+      MYSQL_DATABASE: simplenote
+      HOST_MACHINE_MYSQL_PORT: 3306
+  db:
+    build:
+      context: ./.docker/sql
+    container_name: "simplenote-mariadb"
+    restart: always
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - ./.conf/initdb:/docker-entrypoint-initdb.d
+      - ./data:/var/lib/mysql
+      - ./.log/mysql:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: simplenote
+      MYSQL_USER: simplenote
+      MYSQL_PASSWORD: jaimelagalette
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: "simplenote-phpmyadmin"
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: toor
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_USER: simplenote
+      MYSQL_PASSWORD: jaimelagalette
+      UPLOAD_LIMIT: 512M
+      MEMORY_LIMIT: 512M
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - /sessions
+      - ./.conf/php.ini:/usr/local/etc/php/conf.d/php-phpmyadmin.ini

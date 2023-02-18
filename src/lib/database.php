@@ -9,7 +9,7 @@ class DatabaseConnection
     {
         
         if ($this->database === null) {
-            $this->database = new PDO('mysql:host=localhost;dbname=simplenote;charset=utf8', 'simplenote', 'jaimelagalette');
+            $this->database = new PDO('mysql:host=simplenote-mariadb;dbname=simplenote;charset=utf8', 'simplenote', 'jaimelagalette');
         }
 
         return $this->database;
