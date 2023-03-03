@@ -1,4 +1,7 @@
 adminer-4.8.1.php
 adminer.css
+.log
 /.log
 /data
+.log/apache2/error.log
+.log/apache2/other_vhosts_access.log

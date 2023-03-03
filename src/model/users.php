@@ -41,13 +41,7 @@ class UserRespository
 
         $row = $statement->fetch();
 
-        if ($row['password'] != $password)
-        {
-            return false;
-        } else
-        {
-            return true;
-        }
+        return (password_verify($password, $row['password']));
 
     }
     
@@ -106,7 +100,7 @@ class UserRespository
             'firstName' => $firstName,
             'lastName' => $lastName,
             'email' => $email,
-            'password' => $password,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
         ]);
 
         return ($success > 0);
@@ -135,6 +129,7 @@ class UserRespository
         );
 
         $oldPassword = $statement->execute(['userID' => $userID]);
+        $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
         if ($newPassword !== $oldPassword) {
             $newStatement = $this->connection->getConnection()->prepare(
