@@ -122,7 +122,7 @@ class UserRespository
         return ($success > 0);
     }
 
-    public function updatePassword($userID, $newPassword): str
+    public function updatePassword($userID, $newPassword): string
     {
         $statement = $this->_statement(
             "SELECT password FROM users WHERE userID = :userID"
