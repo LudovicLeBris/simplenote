@@ -32,7 +32,7 @@ if (!isset($_SESSION['userID']))
                 break;
                 
             default:
-                header(location: 'templates/login.php');
+                header('location: templates/login.php');
                 break;
         }
     }

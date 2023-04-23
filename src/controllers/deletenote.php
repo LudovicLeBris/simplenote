@@ -16,7 +16,6 @@ function delNote($userConnected, $noteID)
     if (!$success) {
         echo "erreur en base";
     } else {
-        echo '<script language="javascript">alert("Note supprimée")</script>';
         header('location: index.php');
     }
 

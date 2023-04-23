@@ -1,13 +1,4 @@
 adminer-4.8.1.php
 adminer.css
-<<<<<<< HEAD
-
-/data
-/.log
-=======
-.log
 /.log
 /data
-.log/apache2/error.log
-.log/apache2/other_vhosts_access.log
->>>>>>> 85d09817b10cc6d6f75ac82d3f1daa0379b0b13b
