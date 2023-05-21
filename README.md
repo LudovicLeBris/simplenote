@@ -12,11 +12,11 @@ Wait for the construction of the differents images
 
 URL to connect to the app :
 
-    http://simplenote/
+    http://127.0.0.1/
 
 URL to connect to PHP-myadmin :
 
-    http://simplenote:8080
+    http://127.0.0.1:8080
 
 A sample account is already set :  
 login : j.legend@example.com  
