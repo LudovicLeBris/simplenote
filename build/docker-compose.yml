@@ -1,20 +1,26 @@
-version: '3'
+version: '3.8'
 
 services:
-  web:
+  web-nginx:
     image: nginx:latest
+    links:
+      - 'php'
     ports:
      - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - ../app:/app
+      - ./nginx-conf:/etc/nginx/conf.d
+      - ../app:/var/www/html
+    depends_on:
+      - php
   php:
     build:
       context: .
       dockerfile: PHP.Dockerfile
     volumes:
-      - ../app:/app
-  mysql:
+      - ../app:/var/www/html
+    depends_on:
+      - mariadb
+  mariadb:
     image: mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: toor
@@ -24,6 +30,23 @@ services:
     volumes:
       - mysqldata:/var/lib/mysql
     ports:
-      - "127.0.0.1:3306:3306"
+      - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: toor
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_USER: simplenote
+      MYSQL_PASSWORD: jaimelagalette
+      UPLOAD_LIMIT: 512M
+      MEMORY_LIMIT: 512M
+    depends_on:
+      - mariadb
+
 volumes:
-  mysqldata: {}
+  mysqldata:
