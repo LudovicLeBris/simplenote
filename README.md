@@ -4,7 +4,7 @@ A note web app for training
 Training with MVC pattern in PHP.
 
 Run the app with Docker* :
-open a terminal in the root folder and type :
+open a terminal in the /build folder and type :
 
     docker-compose up
 
