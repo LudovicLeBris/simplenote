@@ -2,11 +2,21 @@
 
 namespace App\Controllers;
 
-class CoreController
-{
+abstract class CoreController
+{   
+    private $router;
+    private $routeName;
+
+    public function __construct($router)
+    {
+        $this->router = $router;
+        $this->routeName = $this->router->match()['name'];
+
+    }
+
     protected function show(string $viewName, array $viewData = []):void
     {
-        global $router;
+        $router = $this->router;
 
         $viewData['currentPage'] = $viewName;
         $viewData['assetBaseUri'] = $_SERVER['BASE_URI'] . 'public/assets/';

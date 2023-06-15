@@ -79,4 +79,6 @@ $match = $router->match();
 
 $dispatcher = new Dispatcher($match, ['method' => 'err404', 'controller' => '\App\Controllers\ErrorController']);
 
+$dispatcher->setControllersArguments($router);
+
 $dispatcher->dispatch();
