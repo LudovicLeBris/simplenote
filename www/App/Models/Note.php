@@ -93,13 +93,11 @@ class Note extends CoreModel
                     title = :title,
                     content = :content,
                     updated_at = NOW(),
-                    user_id = :user_id
                 WHERE id = :id';
         $pdoStatement = $pdo->prepare($sql);
         $updatedRows = $pdoStatement->execute([
             ':title' => $this->title,
             ':content' => $this->content,
-            ':user_id' => $this->user_id,
             ':id' => $this->id,
         ]);
 

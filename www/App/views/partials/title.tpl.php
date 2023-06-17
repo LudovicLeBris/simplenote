@@ -1,1 +1,1 @@
-<h1>Titre de la page</h1>
+<h1><?= $currentPageTitle ?></h1>

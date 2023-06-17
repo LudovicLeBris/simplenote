@@ -1,7 +1,7 @@
 <main>
     <?php include __DIR__ . '/../partials/title.tpl.php' ?>
     <div class="actions">
-        <a href="#">Ajouter une note</a>
+        <a href="<?= $router->generate('note-add') ?>">Ajouter une note</a>
     </div>
     
     <section class="cardContainer">

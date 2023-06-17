@@ -49,6 +49,16 @@ $router->map(
 );
 
 $router->map(
+    'POST',
+    '/note/add',
+    [
+        'method' => 'create',
+        'controller' => 'App\Controllers\NoteController'
+    ],
+    'note-create'
+);
+
+$router->map(
     'GET',
     '/note/update/[i:id]',
     [
@@ -66,6 +76,16 @@ $router->map(
         'controller' => 'App\Controllers\NoteController'
     ],
     'note-update-post'
+);
+
+$router->map(
+    'GET',
+    '/note/delete/[i:id]',
+    [
+        'method' => 'delete',
+        'controller' => 'App\Controllers\NoteController'
+    ],
+    'note-delete'
 );
 
 // ErrorController routes

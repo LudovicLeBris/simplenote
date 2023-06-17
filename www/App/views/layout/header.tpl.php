@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= $assetBaseUri ?>/css/reboot.css">
     <link rel="stylesheet" href="<?= $assetBaseUri ?>/css/style.css">
-    <title>Document</title>
+    <title>Simple note - <?= $currentPageTitle ?></title>
 </head>
 <body>
     <header>
         <?php include __DIR__ . '/../partials/nav.tpl.php' ?>
+        <?php include __DIR__ . '/../partials/flash-messages.tpl.php' ?>
     </header>

@@ -1,6 +1,6 @@
 <nav class="navbar">
     <div class="brand">
-        <a href="#">Simplenote</a>
+        <a href="<?= $router->generate('note-home') ?>">Simplenote</a>
     </div>
     <div class="menu">
         <ul>
