@@ -2,7 +2,7 @@
     <?php include __DIR__ . '/../partials/title.tpl.php' ?>
     <div class="actions">
         <a href="<?= $router->generate('note-home') ?>">Retour</a>
-        <?php if($note->getId()): ?><a href="<?= $router->generate('note-delete', ['id' => $note->getId()]) ?>">Supprimer la note</a><?php endif ?>
+        <?php if($note->getId()): ?><a href="<?= $router->generate('note-delete', ['id' => $note->getId()]) ?>?tokenCsrf=<?= $tokenCsrf ?>">Supprimer la note</a><?php endif ?>
     </div>
 
     <section class="formContainer">
@@ -26,6 +26,7 @@
                     rows="22"><?= ($note->getId())? $note->getContent() : '' ?></textarea>
             </div>
             <div>
+                <input type="hidden" name="tokenCsrf" value="<?= $tokenCsrf ?>">
                 <input type="submit" value="Enregistrer">
             </div>
         </form>

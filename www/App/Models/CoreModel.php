@@ -21,8 +21,8 @@ abstract class CoreModel
      */
     protected $updated_at;
 
-    abstract public static function find($id);
-    abstract public static function findAll();
+    abstract public static function find($id, $currentUser=null);
+    abstract public static function findAll($currentUser=null);
     abstract public function insert();
     abstract public function update();
     abstract public function delete();

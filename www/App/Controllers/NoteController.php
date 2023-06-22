@@ -14,20 +14,20 @@ class NoteController extends CoreController
     public function home(): void
     {
         $this->show('main/home', [
-            'allNotes' => Note::findAll()
+            'allNotes' => Note::findAll($_SESSION['currentUserId'])
         ]);
     }
 
     /**
      * Display one note
      *
-     * @param string $id
+     * @param int $id
      * @return void
      */
-    public function display($id): void
+    public function display(int $noteId): void
     {
         $this->show('main/display', [
-            'note' => Note::find($id)
+            'note' => Note::find($noteId, $_SESSION['currentUserId'])
         ]);
     }
 
@@ -69,7 +69,7 @@ class NoteController extends CoreController
         $note->setTitle($title);
         $note->setContent($content);
         // TODO : change setUser_id argument with the id userObject
-        $note->setUser_id(2);
+        $note->setUser_id($_SESSION['currentUserId']);
         
         /* Datas recording */
         if(empty($errorsList)){
@@ -96,17 +96,17 @@ class NoteController extends CoreController
     public function update($noteId): void
     {
         $this->show('main/add-update', [
-            'note' => Note::find($noteId)
+            'note' => Note::find($noteId, $_SESSION['currentUserId'])
         ]);
     }
 
     /**
      * Processing the form for updating a note
      *
-     * @param string $noteId
+     * @param int $noteId
      * @return void
      */
-    public function updatePost($noteId): void
+    public function updatePost(int $noteId): void
     {
         $title = filter_input(INPUT_POST, 'title');
         $content = htmlspecialchars(filter_input(INPUT_POST, 'content'));
@@ -123,7 +123,7 @@ class NoteController extends CoreController
         }
 
         /* Datas preparing */
-        $note = Note::find($noteId);
+        $note = Note::find($noteId, $_SESSION['currentUserId']);
         $note->setTitle($title);
         $note->setContent($content);
 
@@ -141,9 +141,15 @@ class NoteController extends CoreController
         ]);
     }
 
-    public function delete($noteId)
+    /**
+     * Processing the delete of a note
+     *
+     * @param int $noteId
+     * @return void
+     */
+    public function delete(int $noteId): void
     {
-        $note = Note::find($noteId);
+        $note = Note::find($noteId, $_SESSION['currentUserId']);
         
         if($note !== false){
             if($note->delete()){

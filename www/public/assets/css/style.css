@@ -58,6 +58,24 @@ h1  {
     text-decoration: none;
 }
 
+@media (max-width: 768px) {
+    .listContainer{
+        width: 95%;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 769px){
+    .listContainer{
+        width: 70%;
+        margin: 0 auto;
+    }
+}
+
+table {
+    width: 100%;
+}
+
 /* footer */
 
 footer {

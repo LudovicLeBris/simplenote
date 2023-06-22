@@ -18,10 +18,93 @@ abstract class CoreController
      */
     private string $routeName;
 
-    public function __construct($router)
+    public function __construct(object $router)
     {
         $this->router = $router;
         $this->routeName = $this->router->match()['name'];
+
+        $this->checkSecurity();
+    }
+
+    /**
+     * Security global management
+     *
+     * @return void
+     */
+    private function checkSecurity(): void
+    {
+        $configData = parse_ini_file(__DIR__ . '/../security.ini', true);
+
+        $this->checkACL(isset($configData['ACL'])? $configData['ACL'] : []);
+        $this->checkCSRF(isset($configData['CSRF'])? $configData['CSRF'] : []);
+    }
+
+    /**
+     * Access management
+     *
+     * @param array $acl
+     * @return void
+     */
+    private function checkACL($acl): void
+    {
+        if(array_key_exists($this->routeName, $acl)){
+            $roles = explode(' ', $acl[$this->routeName]);
+            $this->checkAuthorization($roles);
+        }
+    }
+
+    /**
+     * CSRF token management
+     *
+     * @param array $csrfRoutes
+     * @return void
+     */
+    private function checkCSRF($csrfRoutes): void
+    {
+        $csrfTokenPost = isset($csrfRoutes['POST'])? explode(' ', $csrfRoutes['POST']):[];
+        $csrfTokenGet = isset($csrfRoutes['GET'])? explode(' ', $csrfRoutes['GET']):[];
+
+        $tokenCsrdProtectedRoutes = false;
+        if(in_array($this->routeName, $csrfTokenPost)){
+            $tokenCsrfUser = filter_input(INPUT_POST, 'tokenCsrf');
+            $tokenCsrdProtectedRoutes = true;
+        }
+        if(in_array($this->routeName, $csrfTokenGet)){
+            $tokenCsrfUser = filter_input(INPUT_GET, 'tokenCsrf');
+            $tokenCsrdProtectedRoutes = true;
+        }
+        if($tokenCsrdProtectedRoutes){
+            $tokenCsrfSession = isset($_SESSION['tokenCsrf'])? $_SESSION['tokenCsrf'] : '';
+
+            if($tokenCsrfUser !== $tokenCsrfSession || empty($tokenCsrfSession)){
+                $this->redirect('error-err403');
+            }
+        }
+
+        $tokenCsrf = bin2hex(random_bytes(32));
+        $_SESSION['tokenCsrf'] = $tokenCsrf;
+    }
+
+    /**
+     * Check if User has right to login to the app
+     *
+     * @param array $roles
+     * @return boolean|null
+     */
+    public function checkAuthorization($roles = []): ?bool
+    {
+        if(isset($_SESSION['currentUser'])){
+            $user = $_SESSION['currentUser'];
+            $role = $user->getRoleId();
+            
+            if(in_array($role, $roles)){
+                return true;
+            }
+
+            $this->redirect('error-err403');
+        }
+
+        $this->redirect('user-login');
     }
 
     /**
@@ -29,14 +112,26 @@ abstract class CoreController
      *
      * @return string
      */
-    protected function currentPageTitle()
+    protected function currentPageTitle(): string
     {
         $mapping = [
             'note-home' => 'Mes notes',
             'note-display' => 'Détail de la note',
             'note-add' => 'Création d\'une note',
             'note-create' => 'Création d\'une note',
-            'note-update' => 'Modification de la note'
+            'note-update' => 'Modification de la note',
+            'user-login' => 'Page de connexion',
+            'user-login-post' => 'Page de connexion',
+            'user-signup' => 'Création de compte',
+            'user-signup-post' => 'Création de compte',
+            'user-list' => 'Liste des utilisateurs',
+            'user-edit' => 'Edition du compte utilisateur',
+            'user-edit-post' => 'Edition du compte utilisateur',
+            'user-delete' => 'Suppression du compte utilisateur',
+            'user-delete-post' => 'Suppression du compte utilisateur',
+            'user-account' => 'Détail compte utilisateur',
+            'error-err403' => 'Accès non autorisé',
+            'error-err404' => 'Page non trouvée',
         ];
 
         return $mapping[$this->routeName];
@@ -49,7 +144,7 @@ abstract class CoreController
      * @param string $type
      * @return void
      */
-    protected function addFlashMessage($message, $type = 'success'): void
+    protected function addFlashMessage(string $message, string $type = 'success'): void
     {
         
     }
@@ -71,7 +166,7 @@ abstract class CoreController
      * @param array $routeParam
      * @return void
      */
-    protected function redirect($routeName, $routeParam = []): void
+    protected function redirect(string $routeName, array $routeParam = []): void
     {
         header("Location: ". $this->router->generate($routeName, $routeParam));
         exit();
@@ -92,6 +187,7 @@ abstract class CoreController
         $viewData['currentPageTitle'] = $this->currentPageTitle();
         $viewData['assetBaseUri'] = $_SERVER['BASE_URI'] . 'public/assets/';
         $viewData['baseUri'] = $_SERVER['BASE_URI'];
+        $viewData['tokenCsrf'] = $_SESSION['tokenCsrf'];
 
         dump($viewData);
 

@@ -30,7 +30,7 @@ class User extends CoreModel
     /**
      * @var int
      */
-    private $roleId;
+    private $role_id;
 
     /**
      * Retrieve a user record from table users with email
@@ -38,7 +38,7 @@ class User extends CoreModel
      * @param string $email
      * @return User
      */
-    public function findByEmail($email): User
+    public static function findByEmail($email): User
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT * FROM `users` WHERE email = :email';
@@ -53,15 +53,35 @@ class User extends CoreModel
     /**
      * Retrieve a record from table users
      *
-     * @param int $id
+     * @param int $userId
      * @return User
      */
-    public static function find($id): User
+    public static function find($userId, $null=null): User
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT * FROM `users` WHERE id = :id';
         $pdoStatement = $pdo->prepare($sql);
-        $pdoStatement->execute([':id' => $id]);
+        $pdoStatement->execute([':id' => $userId]);
+        
+        $user = $pdoStatement->fetchObject(self::class); 
+        return $user;
+
+    }
+
+    /**
+     * Retrieve a record from table users join with roles table
+     *
+     * @param int $userId
+     * @return User
+     */
+    public static function findWithRole($userId): User
+    {
+        $pdo = Database::getPDO();
+        $sql = 'SELECT users.*, roles.id, roles.name FROM `users` 
+        LEFT JOIN roles ON users.role_id = roles.id
+        WHERE users.id = :id';
+        $pdoStatement = $pdo->prepare($sql);
+        $pdoStatement->execute([':id' => $userId]);
         
         $user = $pdoStatement->fetchObject(self::class); 
         return $user;
@@ -73,7 +93,7 @@ class User extends CoreModel
      *
      * @return array
      */
-    public static function findAll(): array
+    public static function findAll($null=null): array
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT * FROM `users`';
@@ -100,7 +120,7 @@ class User extends CoreModel
             ':lastname' => $this->lastname,
             ':email' => $this->email,
             ':password' => $this->password,
-            ':role_id' => $this->roleId,
+            ':role_id' => $this->role_id,
         ]);
 
         if($insertedRows > 0){
@@ -131,7 +151,7 @@ class User extends CoreModel
             ':firstname' => $this->firstname,
             ':lastname' => $this->lastname,
             ':email' => $this->email,
-            ':role_id' => $this->roleId,
+            ':role_id' => $this->role_id,
             ':id' => $this->id,
         ]);
 
@@ -246,7 +266,31 @@ class User extends CoreModel
      */ 
     public function setPassword(string $password)
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of role_id
+     *
+     * @return  int
+     */ 
+    public function getRoleId()
+    {
+        return $this->role_id;
+    }
+
+    /**
+     * Set the value of role_id
+     *
+     * @param  int  $role_id
+     *
+     * @return  self
+     */ 
+    public function setRoleId(int $role_id)
+    {
+        $this->role_id = $role_id;
 
         return $this;
     }

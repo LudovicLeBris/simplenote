@@ -28,12 +28,15 @@ class Note extends CoreModel
      * @param int $id
      * @return Note
      */
-    public static function find($id): Note
+    public static function find($id, $currentUser=null): Note
     {
         $pdo = Database::getPDO();
-        $sql = 'SELECT * FROM `notes` WHERE id = :id';
+        $sql = 'SELECT * FROM `notes` WHERE id = :id AND user_id = :user_id';
         $pdoStatement = $pdo->prepare($sql);
-        $pdoStatement->execute([':id' => $id]);
+        $pdoStatement->execute([
+            ':id' => $id,
+            ':user_id' => $currentUser
+        ]);
         
         $note = $pdoStatement->fetchObject(self::class); 
         return $note;
@@ -44,12 +47,14 @@ class Note extends CoreModel
      *
      * @return array
      */
-    public static function findAll(): array
+    public static function findAll($currentUser=null): array
     {
         $pdo = Database::getPDO();
-        $sql = 'SELECT * FROM `notes`';
+        $sql = 'SELECT * FROM `notes` WHERE user_id = :user_id';
         $pdoStatement = $pdo->prepare($sql);
-        $pdoStatement->execute();
+        $pdoStatement->execute([
+            ':user_id' => $currentUser,
+        ]);
         
         $notes = $pdoStatement->fetchAll(PDO::FETCH_CLASS, self::class); 
         return $notes;
@@ -92,7 +97,7 @@ class Note extends CoreModel
                 SET 
                     title = :title,
                     content = :content,
-                    updated_at = NOW(),
+                    updated_at = NOW() 
                 WHERE id = :id';
         $pdoStatement = $pdo->prepare($sql);
         $updatedRows = $pdoStatement->execute([
