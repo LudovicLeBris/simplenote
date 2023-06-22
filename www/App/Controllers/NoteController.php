@@ -153,12 +153,12 @@ class NoteController extends CoreController
         
         if($note !== false){
             if($note->delete()){
-                // $this->addFlashMessage('Note supprimée avec succès !');
+                $this->addFlashMessage('Note supprimée avec succès !');
             } else {
-                // $this->addFlashMessage('Erreur de suppression de la note', 'danger');
+                $this->addFlashMessage('Erreur de suppression de la note', 'danger');
             }
         } else {
-            // $this->addFlashMessage('Erreur de suppression de la note : la note n\'existe pas', 'danger');
+            $this->addFlashMessage('Erreur de suppression de la note : la note n\'existe pas', 'danger');
         }
 
         $this->redirect('note-home');

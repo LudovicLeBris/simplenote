@@ -10,5 +10,5 @@
 <body>
     <header>
         <?php include __DIR__ . '/../partials/nav.tpl.php' ?>
-        <?php include __DIR__ . '/../partials/flash-messages.tpl.php' ?>
+        <?php //include __DIR__ . '/../partials/flash-messages.tpl.php' ?>
     </header>

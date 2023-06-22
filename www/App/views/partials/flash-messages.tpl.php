@@ -3,9 +3,9 @@
 
         <?php foreach ($flashMessages as $flashMessage) : ?>
 
-            <div class="<?= $flashMessage['type'] ?>" role="alert">
+            <div class="<?= $flashMessage['type'] ?>">
                 <?= $flashMessage['message'] ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button">X</button>
             </div>
 
         <?php endforeach ?>

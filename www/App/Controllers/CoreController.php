@@ -146,17 +146,24 @@ abstract class CoreController
      */
     protected function addFlashMessage(string $message, string $type = 'success'): void
     {
-        
+        $messagesList = isset($_SESSION['flashMessages'])? $_SESSION['flashMessages'] : [];
+        $messagesList[] = ['message' => $message, 'type' => $type];
+        $_SESSION['flashMessages'] = $messagesList;
     }
 
     /**
      * retrieves all flash messages for display on pages
      *
-     * @return void
+     * @return array
      */
-    protected function getFlashMessage()
+    protected function getFlashMessage(): array
     {
-
+        $messagesList = [];
+        if(isset($_SESSION['flashMessages'])){
+            $messagesList = $_SESSION['flashMessages'];
+            unset($_SESSION['flashMessages']);
+        }
+        return $messagesList;
     }
 
     /**
@@ -188,9 +195,9 @@ abstract class CoreController
         $viewData['assetBaseUri'] = $_SERVER['BASE_URI'] . 'public/assets/';
         $viewData['baseUri'] = $_SERVER['BASE_URI'];
         $viewData['tokenCsrf'] = $_SESSION['tokenCsrf'];
+        $viewData['flashMessages'] = $this->getFlashMessage();
 
-        dump($viewData);
-
+        // dump($viewData);
         extract($viewData);
 
         require_once __DIR__ . '/../views/layout/header.tpl.php';

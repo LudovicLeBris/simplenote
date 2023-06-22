@@ -83,6 +83,10 @@ class UserController extends CoreController
             $errorsList[] = 'L\'e-mail est obligatoire';
         }
 
+        if(User::findByEmail($email)){
+            $errorsList[] = 'L\'email est déja utilisé, vous ne pouvez pas créer deux comptes avec le même identifiant';
+        }
+
         if(empty($password)){
             $errorsList[] = 'Le mot de passe est obligatoire';
         } else {

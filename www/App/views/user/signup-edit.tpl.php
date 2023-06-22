@@ -7,6 +7,7 @@
 
     <section class="signupForm">
         <form action="" method="POST">
+            <?php include __DIR__ . '/../partials/errors.tpl.php' ?>
             <div>
                 <label for="firstname">Prénom</label>
                 <input 

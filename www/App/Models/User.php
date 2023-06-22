@@ -36,9 +36,9 @@ class User extends CoreModel
      * Retrieve a user record from table users with email
      *
      * @param string $email
-     * @return User
+     * @return User|false
      */
-    public static function findByEmail($email): User
+    public static function findByEmail($email): User|false
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT * FROM `users` WHERE email = :email';
@@ -54,9 +54,9 @@ class User extends CoreModel
      * Retrieve a record from table users
      *
      * @param int $userId
-     * @return User
+     * @return User|false
      */
-    public static function find($userId, $null=null): User
+    public static function find($userId, $null=null): User|false
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT * FROM `users` WHERE id = :id';
@@ -72,9 +72,9 @@ class User extends CoreModel
      * Retrieve a record from table users join with roles table
      *
      * @param int $userId
-     * @return User
+     * @return User|false
      */
-    public static function findWithRole($userId): User
+    public static function findWithRole($userId): User|false
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT users.*, roles.id, roles.name FROM `users` 
