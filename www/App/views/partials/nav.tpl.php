@@ -5,6 +5,9 @@ if (isset($_SESSION['currentUser'])):
 <nav class="navbar">
     <div class="brand">
         <a href="<?= $router->generate('note-home') ?>">Simplenote</a>
+        <?php if($_SESSION['currentUser']->getRoleId() === 1): ?>
+        <a href="<?= $router->generate('admin-home') ?>">Administration</a>
+        <?php endif ?>
     </div>
     <div class="menu">
         <ul>

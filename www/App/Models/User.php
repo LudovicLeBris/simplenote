@@ -33,6 +33,11 @@ class User extends CoreModel
     private $role_id;
 
     /**
+     * @var string
+     */
+    private $name;
+
+    /**
      * Retrieve a user record from table users with email
      *
      * @param string $email
@@ -173,6 +178,17 @@ class User extends CoreModel
         ]);
 
         return ($deletedRows);
+    }
+
+    public static function getUsersCount()
+    {
+        $pdo = Database::getPDO();
+        $sql = 'SELECT COUNT(*) FROM users';
+        $pdoStatement = $pdo->prepare($sql);
+        $pdoStatement->execute();
+        $totalUsersCount = $pdoStatement->fetchColumn();
+
+        return $totalUsersCount;
     }
 
     /**

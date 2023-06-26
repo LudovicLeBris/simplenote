@@ -124,7 +124,6 @@ abstract class CoreController
             'user-login-post' => 'Page de connexion',
             'user-signup' => 'Création de compte',
             'user-signup-post' => 'Création de compte',
-            'user-list' => 'Liste des utilisateurs',
             'user-edit' => 'Edition du compte utilisateur',
             'user-edit-post' => 'Edition du compte utilisateur',
             'user-delete' => 'Suppression du compte utilisateur',
@@ -132,6 +131,10 @@ abstract class CoreController
             'user-account' => 'Détail compte utilisateur',
             'error-err403' => 'Accès non autorisé',
             'error-err404' => 'Page non trouvée',
+            'admin-home' => 'Administration du site',
+            'admin-list' => 'Liste des utilisateurs',
+            'admin-edit' => 'Edition de l\'utilisateurs',
+            'admin-edit-post' => 'Edition de l\'utilisateurs',
         ];
 
         return $mapping[$this->routeName];

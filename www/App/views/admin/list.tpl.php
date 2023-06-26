@@ -1,7 +1,7 @@
 <main>
 <?php include __DIR__ . '/../partials/title.tpl.php' ?>
     <div class="actions">
-        <a href="<?= $router->generate('note-home') ?>">retour</a>
+        <a href="<?= $router->generate('admin-home') ?>">retour</a>
     </div>
 
     <section class='listContainer'>
@@ -22,7 +22,7 @@
                     <td><?= $user->getEmail() ?></td>
                     <td><?= $user->getFirstname() ?></td>
                     <td><?= $user->getLastname() ?></td>
-                    <td>Edit.</td>
+                    <td><a href="<?= $router->generate('admin-edit', ['id' => $user->getId()]) ?>">Edit.</a></td>
                 </tr>
             <?php endforeach ?>
             </tbody>

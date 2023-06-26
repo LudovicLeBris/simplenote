@@ -132,18 +132,6 @@ class UserController extends CoreController
     }
 
     /**
-     * Display the page with all users
-     *
-     * @return void
-     */
-    public function list(): void
-    {
-        $this->show('user/list', [
-            'users' => User::findAll()
-        ]);
-    }
-
-    /**
      * Display the account page with the user informations
      *
      * @param int $userId
@@ -221,7 +209,7 @@ class UserController extends CoreController
         }
 
         $this->show('user/signup-edit', [
-            'newUser' => $user,
+            'user' => $user,
             'errorsList' => $errorsList 
         ]);
 

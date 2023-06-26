@@ -15,10 +15,10 @@ class Role extends CoreModel
     /**
      * Retrieve a record from table roles
      *
-     * @param int $id
+     * @param int $ids
      * @return Role
      */
-    public static function find($id): Role
+    public static function find($id, $null = null): Role|false
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT * FROM `roles` WHERE id = :id';
@@ -34,7 +34,7 @@ class Role extends CoreModel
      *
      * @return array
      */
-    public static function findAll(): array
+    public static function findAll($null=null): array
     {
         $pdo = Database::getPDO();
         $sql = 'SELECT * FROM `roles`';
@@ -53,10 +53,10 @@ class Role extends CoreModel
     public function insert(): ?bool
     {
         $pdo = Database::getPDO();
-        $sql = 'INSERT INTO `roles` (name)
-                VALUES (:name)';
+        $sql = 'INSERT INTO `roles` (`name`)
+                VALUES (:`name`)';
         $pdoStatement = $pdo->prepare($sql);
-        $insertedRows = $pdoStatement->execute([':name' => $this->name]);
+        $insertedRows = $pdoStatement->execute([':`name`' => $this->name]);
 
         if($insertedRows > 0){
             $this->id = $pdo->lastInsertId();
@@ -76,12 +76,12 @@ class Role extends CoreModel
         $pdo = Database::getPDO();
         $sql = 'UPDATE `roles`
                 SET 
-                    name = :name,
+                    `name` = :`name`,
                     updated_at = NOW(),
                 WHERE id = :id';
         $pdoStatement = $pdo->prepare($sql);
         $updatedRows = $pdoStatement->execute([
-            ':name' => $this->name,
+            ':`name`' => $this->name,
             ':id' => $this->id,
         ]);
 

@@ -132,16 +132,6 @@ $router->map(
 
 $router->map(
     'GET',
-    '/users',
-    [
-        'method' => 'list',
-        'controller' => 'App\Controllers\UserController'
-    ],
-    'user-list'
-);
-
-$router->map(
-    'GET',
     '/users/account/[i:id]',
     [
         'method' => 'account',
@@ -198,6 +188,48 @@ $router->map(
         'controller' => 'App\Controllers\UserController'
     ],
     'user-logout'
+);
+
+// AdminController routes
+
+$router->map(
+    'GET',
+    '/admin',
+    [
+        'method' => 'home',
+        'controller' => 'App\Controllers\AdminController'
+    ],
+    'admin-home'
+);
+
+$router->map(
+    'GET',
+    '/admin/users',
+    [
+        'method' => 'list',
+        'controller' => 'App\Controllers\AdminController'
+    ],
+    'admin-list'
+);
+
+$router->map(
+    'GET',
+    '/admin/users/[i:id]',
+    [
+        'method' => 'edit',
+        'controller' => 'App\Controllers\AdminController'
+    ],
+    'admin-edit'
+);
+
+$router->map(
+    'POST',
+    '/admin/users/[i:id]',
+    [
+        'method' => 'editPost',
+        'controller' => 'App\Controllers\AdminController'
+    ],
+    'admin-edit-post'
 );
 
 // ErrorController routes
